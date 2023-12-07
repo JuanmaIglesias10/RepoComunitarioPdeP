@@ -2,10 +2,7 @@
 
 class Comensal {
 	dineroDisponible
-	tipo
-	tieneDineroSuficiente(unosPlatos)
-    platosQuePuedePagar(unosPlatos) 
-	platosAgradables(unosPlatos) 
+	tipo 
     leGusta(unPlato)  
 	darseUnGustoEn(unaParrilla) 	
 	problemasGastricos()
@@ -43,7 +40,6 @@ class Parrillada {
 object parrillaDeMiguelito {
 	platos 
 	clientes 
-	platos() 
 	agregarCliente(unCliente)
 	promocion(unaCantidad) 
 }
@@ -51,9 +47,9 @@ object parrillaDeMiguelito {
 class Plato {
 	
     baseDePrecio() 	
-    esAptoCeliaco()
-    valoracion()
-    esEspecial()
+    {abstract} esAptoCeliaco()
+    {abstract} valoracion()
+    {abstract} esEspecial()
     precio() 
 }
 
@@ -70,9 +66,14 @@ class BurgaSimple extends Plato {
 	pesoDeMedallon
 	cantMedallones 
 	esAptoCeliaco()
-	method peso()
+	peso()
 	valoracion()	
 	esEspecial()
+}
+
+interface TipoDePan {
+    peso() 
+	esAptoCeliaco()
 }
 
 class BurgaDoble extends BurgaSimple{
@@ -104,4 +105,22 @@ object panDeMaiz {
     peso()
 	esAptoCeliaco()
 }
+
+Comensal .left.> Plato
+Comensal ..> parrillaDeMiguelito
+Comensal -up-> Tipo
+celiaco .up.|> Tipo
+paladarFino .up.|> Tipo
+todoTerreno .up.|> Tipo 
+celiaco ..> Plato
+paladarFino ..> Plato
+todoTerreno ..> Plato
+Parrillada --> "*" Plato : platos
+parrillaDeMiguelito --> "*" Plato : platos
+parrillaDeMiguelito --> "*" Comensal : clientes
+BurgaSimple --> TipoDePan
+panCasero ..|> TipoDePan
+panDeMaiz ..|> TipoDePan 
+panIndustrial ..|> TipoDePan
+
 @enduml

@@ -1,0 +1,107 @@
+@startuml
+
+class Comensal {
+	dineroDisponible
+	tipo
+	tieneDineroSuficiente(unosPlatos)
+    platosQuePuedePagar(unosPlatos) 
+	platosAgradables(unosPlatos) 
+    leGusta(unPlato)  
+	darseUnGustoEn(unaParrilla) 	
+	problemasGastricos()
+	problemasEconomicos()
+}
+
+interface Tipo{
+    condicionParaGustar(unPlato)
+}
+
+object celiaco{
+---
+	condicionParaGustar(unPlato) 
+}
+
+object paladarFino {
+---
+	condicionParaGustar(unPlato)  
+    esDeTipo(unTipo) 
+}
+
+object todoTerreno {
+---
+	condicionParaGustar(unPlato)
+}
+
+class Parrillada {
+	platos 
+	peso()  
+	esEspecial()
+	esAptaCeliacos()
+    valoracion() 
+}
+
+object parrillaDeMiguelito {
+	platos 
+	clientes 
+	platos() 
+	agregarCliente(unCliente)
+	promocion(unaCantidad) 
+}
+
+class Plato {
+	
+    baseDePrecio() 	
+    esAptoCeliaco()
+    valoracion()
+    esEspecial()
+    precio() 
+}
+
+class Provoleta extends Plato {
+	peso
+	estaEmpanado
+	esAptoCeliaco()
+    esEspecial() 
+	valoracion()
+}
+
+class BurgaSimple extends Plato {
+	tipoDePan
+	pesoDeMedallon
+	cantMedallones 
+	esAptoCeliaco()
+	method peso()
+	valoracion()	
+	esEspecial()
+}
+
+class BurgaDoble extends BurgaSimple{
+	esEspecial()
+}
+
+class CorteDeCarne extends Plato {
+	corteElegido
+	puntoDeCoccion
+	peso
+	esEspecial()
+    esAptoCeliaco()
+	valoracion()
+}
+object panIndustrial {
+---
+    peso() 
+	esAptoCeliaco()
+}
+
+object panCasero {
+---
+	peso()
+	esAptoCeliaco()
+}
+
+object panDeMaiz {
+---
+    peso()
+	esAptoCeliaco()
+}
+@enduml

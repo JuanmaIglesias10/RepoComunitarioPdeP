@@ -1,0 +1,73 @@
+@startuml diagramaDeClases
+
+class Plato {
+    autor
+    {abstract} esBonito()
+    {abstract} cantidadDeAzucar()
+    calorias()
+}
+
+class Entrada extends Plato {
+    cantidadDeAzucar()
+    esBonito()
+}
+
+class Principal extends Plato {
+    var cantidadDeAzucar
+    var esBonito
+    cantidadDeAzucar()
+    esBonito()  
+}
+
+class Postre extends Plato {
+    var cantidadDeColores
+    cantidadDeAzucar()
+    esBonito()
+}
+
+class Cocinero {
+    especialidad 
+    catar(unPlato)
+    cocinar()
+}
+
+class Pastelero {
+    nivelDeDulzor
+    calificar(unPlato)
+    crear()
+}
+
+class Chef {
+    cantDeCalorias
+    notaMinima(unPlato)
+    calificar(unPlato)
+    aprobadoPorChef(unPlato)
+    crear()
+}
+
+class Souschef extends Chef {
+      notaMinima(unPlato)
+      crear()
+}
+
+class Torneo {
+    catadores  
+    platosParticipantes
+    agregarParticipante(unParticipante)
+    puntuacionDeUnPlato(unPlato)
+    hayParticipantes()
+    ordenarPlatos()
+    platoGanador()
+}
+
+Plato --> Cocinero
+Cocinero --> Pastelero
+Cocinero --> Chef
+Cocinero --> Souschef
+Cocinero ..> Plato
+Pastelero ..> Plato
+Chef ..> Plato
+Torneo --> "*" Cocinero : catadores
+Torneo --> "*" Plato : platosParticipantes
+
+@enduml

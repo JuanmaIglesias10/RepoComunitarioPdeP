@@ -8,6 +8,5 @@ class Equipamiento {
  
  class SableDeLuz inherits Equipamiento {
 	const energia
-	
 	method energia() = energia
 }

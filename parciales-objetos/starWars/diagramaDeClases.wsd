@@ -1,0 +1,48 @@
+@startuml
+
+class Habitante {
+	valentia
+	inteligencia
+	poder()
+}
+ 
+class Soldado extends Habitante {
+ 	equipamiento
+ 	poder()
+ 	poderPorEquipamiento()
+ 	equipoBueno()
+ }
+  
+class Maestro extends Habitante {
+	midiclorianos
+ 	lado
+ 	sableDeLuz
+ 	poder()
+ 	cambiarDeLado()
+ }
+
+class Jedi {
+	tiempo
+	poderDeSable(unSable)
+}
+
+class Sith {
+	tiempo
+	poderDeSable(unSable)
+}
+
+class Equipamiento {
+ 	potencia
+ 	estaEnBuenEstado
+ 	estaEnBuenEstado()
+ }
+ 
+class SableDeLuz extends Equipamiento {
+	energia
+}
+
+Maestro --> SableDeLuz
+Jedi ..> SableDeLuz
+Sith ..> SableDeLuz
+
+@enduml

@@ -1,8 +1,19 @@
+import Lugares.*
+
 class Persona {
 	var preferencias = []
+	const presupuestoMaximo
+
+	method presupuestoMaximo() = presupuestoMaximo
+	method puedePagar(unaCantidad) = presupuestoMaximo >= unaCantidad
 	
-	
-	method irDeVacaciones(unLugar) = preferencias.criterioParaIr(unLugar)
+	method puedeIrDeVacaciones(unLugar) = preferencias.any{preferencia => preferencia.criterioParaIr(unLugar)}
+	method cambiarPreferencia(nuevaPreferencia) {
+		preferencias = [nuevaPreferencia]
+	}
+	method agregar(nuevaPreferencia) {
+		preferencias.add(nuevaPreferencia)
+	}
 }
 
 object tranquilidad {
@@ -15,8 +26,4 @@ object diversion {
 
 object raro {
 	method criterioParaIr(unLugar) = unLugar.tieneNombreRaro()
-}
-
-object variosCriterios {
-	method criterioParaIr(unLugar) = 
 }

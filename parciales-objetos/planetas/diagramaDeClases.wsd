@@ -6,9 +6,10 @@ class Persona {
 	potencia()
 	esDestacado()
 	darTributo(unPlaneta)
+    valor()
 }
 
-Persona ..> Planeta
+Persona .up.> Planeta
 
 class Atleta extends Persona {
 	masaMuscular
@@ -27,7 +28,33 @@ class Docente extends Persona {
 	inteligencia()
 	esDestacado()
 	darTributo(unPlaneta)
+    valor()
 }
+
+class Soldado extends Persona {
+	arsenal
+	potencia()
+	darTributo(unPlaneta)
+	potenciaDelArsenal()
+}
+
+abstract class Arma {
+	{abstract}potencia(unSoldado)
+}
+
+class Pistolete extends Arma {
+	largoEnCm
+	potencia(unSoldado)
+}
+
+class Espadon extends Arma {
+	pesoEnKg
+	potencia(unSoldado)
+}
+
+Soldado -->"*" Arma : arsenal
+Arma ..> Soldado
+
 
 class Planeta {
 	habitantes

@@ -5,8 +5,8 @@ class Planeta {
 	var cantidadDeMuseos
 	var longitudDeMurallas
 	
-	method delegacionDiplomatica() = habitantes.filter{unaPersona => unaPersona.esDestacado()}
-		
+	method delegacionDiplomatica() = habitantes.filter{unaPersona => unaPersona.esDestacado()}	
+	
 	method esCulto() = cantidadDeMuseos >= 2 && self.sonTodosGenios()
 	
 	method sonTodosGenios() = habitantes.all{unHabitante => unHabitante.inteligencia() >= 10}
@@ -19,19 +19,22 @@ class Planeta {
 	method fundarMuseo() {
 		cantidadDeMuseos ++
 	}
-	
 	method potenciaAparente() {
 		return self.potenciaDelMasPotente() * habitantes.size()
 	}
-	
 	method potenciaDelMasPotente() {
 		return habitantes.max{unHabitante => unHabitante.potencia()}.potencia()
 	}
-	
 	method necesitaReforzarse() = self.potenciaAparente() >= self.potenciaReal() * 2
 	
 	method recibirTributo() {
 		habitantes.forEach{persona => persona.darTributo(self)}
+	}
+	method habitantesValiosos() {
+		return habitantes.filter{unHabitante => unHabitante.valor() >= 40}
+	}
+	method apaciguar(otroPlaneta) {
+		return self.habitantesValiosos().forEach{unHabitante => unHabitante.darTributo(otroPlaneta)}
 	}
 }
 

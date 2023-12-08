@@ -1,0 +1,49 @@
+@startuml
+class Persona {
+	edad
+	
+	inteligencia()
+	potencia()
+	esDestacado()
+	darTributo(unPlaneta)
+}
+
+Persona ..> Planeta
+
+class Atleta extends Persona {
+	masaMuscular
+	cantidadDeTecnicas
+	
+	potencia()
+	esDestacado()
+	entrenar(unosDias)
+	aprenderUnaTecnica()
+	darTributo(unPlaneta)
+}
+	
+class Docente extends Persona {
+	cantidadDeCursos
+	 
+	inteligencia()
+	esDestacado()
+	darTributo(unPlaneta)
+}
+
+class Planeta {
+	habitantes
+	cantidadDeMuseos
+	longitudDeMurallas
+	
+	delegacionDiplomatica()
+	esCulto()
+	potenciaReal()
+	construirMurallas(unaCantidad)
+	fundarMuseo()
+	potenciaAparente()
+	necesitaReforzarse()
+	recibirTributo()
+}
+
+Planeta -->"*"Persona : habitantes
+
+@enduml

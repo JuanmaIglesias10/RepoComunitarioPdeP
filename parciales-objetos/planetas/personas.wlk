@@ -1,3 +1,5 @@
+import planetas.*
+
 class Persona {
 	var edad
 	

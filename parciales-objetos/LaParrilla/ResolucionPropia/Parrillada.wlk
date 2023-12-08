@@ -1,12 +1,12 @@
 import Plato.*
 import tiposDePanes.*
 
-class Parrillada {
+class Parrillada inherits Plato {
 	const platos = []
 	
-	method peso() = platos.sum{unPlato => unPlato.peso()}
-	method esEspecial() = self.peso() > 250 and platos.size() >= 3
-	method esAptaCeliacos() = platos.all{unPlato => unPlato.esAptaCeliacos()}
-	method valoracion() = platos.max{unPlato => unPlato.valoracion()}
+	override method peso() = platos.sum{unPlato => unPlato.peso()}
+	override method esEspecial() = super() and platos.size() >= 3
+	override method esAptoCeliaco() = platos.all{unPlato => unPlato.esAptaCeliacos()}
+	override method valoracion() = platos.max{unPlato => unPlato.valoracion()}
 	
 }

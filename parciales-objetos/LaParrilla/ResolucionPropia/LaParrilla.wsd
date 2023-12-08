@@ -29,7 +29,7 @@ object todoTerreno {
 	condicionParaGustar(unPlato)
 }
 
-class Parrillada {
+class Parrillada extends Plato {
 	platos 
 	peso()  
 	esEspecial()
@@ -39,7 +39,8 @@ class Parrillada {
 
 object parrillaDeMiguelito {
 	platos 
-	clientes 
+	clientes
+    cobrar(unaCantidad) 
 	agregarCliente(unCliente)
 	promocion(unaCantidad) 
 }
@@ -115,7 +116,6 @@ todoTerreno .up.|> Tipo
 celiaco ..> Plato
 paladarFino ..> Plato
 todoTerreno ..> Plato
-Parrillada --> "*" Plato : platos
 parrillaDeMiguelito --> "*" Plato : platos
 parrillaDeMiguelito --> "*" Comensal : clientes
 BurgaSimple --> TipoDePan

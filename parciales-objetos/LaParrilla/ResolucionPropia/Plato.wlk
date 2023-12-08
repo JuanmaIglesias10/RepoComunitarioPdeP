@@ -4,9 +4,10 @@ class Plato {
 	
 	method baseDePrecio() = self.valoracion() * 300 
 	
+	method peso()
 	method esAptoCeliaco()
 	method valoracion()
-	method esEspecial()
+	method esEspecial() = self.peso() > 250 
 	method precio() {
 		if (self.esAptoCeliaco()) {
 			return self.baseDePrecio() + 1200
@@ -18,11 +19,10 @@ class Plato {
 }
 
 class Provoleta inherits Plato {
-	const peso
 	const estaEmpanado
 	
 	override method esAptoCeliaco() = not estaEmpanado
-	override method esEspecial() = peso > 250 and estaEmpanado
+	override method esEspecial() = super() and estaEmpanado
 	override method valoracion() {
 		if (self.esEspecial()){return 120}
 		else {return 80}
@@ -35,9 +35,8 @@ class BurgaSimple inherits Plato {
 	const cantMedallones = 1
 	
 	override method esAptoCeliaco() = tipoDePan.esAptoCeliaco()
-	method peso() = tipoDePan.peso() * cantMedallones + pesoDeMedallon
+	override method peso() = tipoDePan.peso() * cantMedallones + pesoDeMedallon
 	override method valoracion() = self.peso() / 10	
-	override method esEspecial() = self.peso() > 250
 }
 
 class BurgaDoble inherits BurgaSimple(cantMedallones = 2 ){
@@ -49,7 +48,7 @@ class CorteDeCarne inherits Plato {
 	const puntoDeCoccion
 	const peso
 	
-	override method esEspecial() = peso > 250 and puntoDeCoccion == "a punto"
+	override method esEspecial() = super() and puntoDeCoccion == "a punto"
 	override method esAptoCeliaco() = true
 	override method valoracion() = 100
 	}

@@ -6,6 +6,10 @@ class Comensal {
 	var dineroDisponible
 	var tipo
 	
+	
+	method gastarDinero(unaCantidad) {
+		dineroDisponible -= unaCantidad
+	}
 	method modificarTipo(nuevoTipo){
 		tipo = nuevoTipo
 	}
@@ -15,12 +19,16 @@ class Comensal {
 	method tieneDineroSuficiente(unosPlatos) = not self.platosQuePuedePagar(unosPlatos).isEmpty()
 	method platosQuePuedePagar(unosPlatos) = unosPlatos.filter{unPlato => dineroDisponible >= unPlato.precio()}
 	method platosAgradables(unosPlatos) = self.platosQuePuedePagar(unosPlatos).filter{unPlato => self.leGusta(unPlato)}
+	method platoElegido(unaParrilla) = self.platosAgradables(unaParrilla.platos()).max{unPlato => unPlato.precio()}
+	method precioPlatoElegido(unaParrilla) = self.platoElegido(unaParrilla).precio()
+
 
 	method leGusta(unPlato) = tipo.condicionParaGustar(unPlato)
 	method darseUnGustoEn(unaParrilla) {
 		if (self.tieneDineroSuficiente(unaParrilla.platos())){
-		self.platosAgradables(unaParrilla.platos()).max{unPlato => unPlato.precio()
-		unaParrilla.agregarCliente(self)}
+			self.gastarDinero(self.precioPlatoElegido(unaParrilla))
+			unaParrilla.cobrar(self.precioPlatoElegido(unaParrilla))
+			unaParrilla.agregarCliente(self)
 		}
 		else {
 			throw new NoTieneSuficienteDinero(message = "No tienes dinero suficiente para comer aqui")

@@ -1,0 +1,73 @@
+@startuml
+
+object portal {
+	usuarios
+--	
+	recategorizacionGeneral()
+	cantidadDePostInteresantes(unUsuario)
+}
+
+portal -->"*" Usuario : usuarios
+
+class Post {
+	calificaciones
+	comentarios
+	estaAbierto
+	
+	valor()
+	comentarios()
+	calificaciones()
+	esInteresante()
+	tiene20extensos()
+}
+
+class PostPremium extends Post {
+	valor()
+	esInteresante()
+}
+
+class Usuario {
+	posts
+	categoria
+	
+	puntaje()
+	crearPost()
+	comentar(unPost, unComentario)
+	calificar(unPost, unPuntaje)
+	tieneMasPuntosQue(unPuntaje)
+	tienePostMuyValorado()
+	recategorizarse()
+	cantidadDePostInteresantes()
+}
+
+Usuario -->"*"Post : posts
+
+interface Categoria {
+   crearPost()
+   recategorizar(unUsuario) 
+}
+
+object novato {
+--
+	crearPost()
+	recategorizar(unUsuario)
+}
+
+object intermedio {
+--
+	crearPost()
+	recategorizar(unUsuario)
+}
+
+object experto {
+--
+	crearPost()
+	recategorizar(unUsuario)
+}
+
+Usuario --> Categoria
+novato ..|> Categoria
+intermedio ..|> Categoria
+experto ..|> Categoria
+
+@enduml

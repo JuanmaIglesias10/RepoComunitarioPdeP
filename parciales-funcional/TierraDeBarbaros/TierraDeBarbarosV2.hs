@@ -99,3 +99,16 @@ contieneMasDe3Vocales unaPalabra = (>3) . length . filter esVocal $ unaPalabra
 
 esVocal :: Char -> Bool
 esVocal unaLetra =  elem unaLetra "aeiouAEIOU"
+
+descendientes :: Barbaro -> [Barbaro]
+descendientes unBarbaro = tail (iterate (barbaro . aplicarTodosSusObjetos) unBarbaro)
+
+barbaro :: Barbaro -> Barbaro
+barbaro unBarbaro = UnBarbaro (nombre unBarbaro ++ "*") (fuerza unBarbaro) (habilidades unBarbaro) (objetos unBarbaro)
+
+dave = UnBarbaro "Dave" 100 ["tejer","escribirPoesia"] [ardilla, varitasDefectuosas]
+
+aplicarTodosSusObjetos :: Barbaro -> Barbaro
+aplicarTodosSusObjetos unBarbaro = foldr ($) unBarbaro (objetos unBarbaro)
+
+

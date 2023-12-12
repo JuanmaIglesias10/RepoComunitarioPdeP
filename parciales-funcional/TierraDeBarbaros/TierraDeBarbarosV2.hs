@@ -1,4 +1,5 @@
 import Text.Show.Functions()
+import Data.Char (isUpper, toUpper)
 
 data Barbaro = UnBarbaro {
     nombre :: String,
@@ -81,13 +82,14 @@ poderDeGritoDeGuerra unBarbaro = length . concat $ habilidades unBarbaro
 cantidadDeObjetos :: Barbaro -> Int
 cantidadDeObjetos unBarbaro = length . objetos $ unBarbaro
 
---caligrafia :: Prueba
---caligrafia unBarbaro =  
+caligrafia :: Prueba
+caligrafia unBarbaro = all empiezaConMayuscula (habilidades unBarbaro) && all contieneMasDe3Vocales (habilidades unBarbaro)
 
-todasEmpiezanConMayuscula :: [String] -> Bool
-todasEmpiezanConMayuscula unasHabilidades = all empiezaConMayuscula . contieneMasDe3Vocales $ unasHabilidades 
+caligrafia' :: Prueba
+caligrafia' unBarbaro = all empiezaConMayusYContieneMasDe3Vocales (habilidades unBarbaro)
 
---todasTienenMasDe3Vocales :: [String] -> Bool
+empiezaConMayusYContieneMasDe3Vocales :: String -> Bool
+empiezaConMayusYContieneMasDe3Vocales unaPalabra = empiezaConMayuscula unaPalabra && contieneMasDe3Vocales unaPalabra
 
 empiezaConMayuscula :: String -> Bool
 empiezaConMayuscula unaPalabra = isUpper . head $ unaPalabra

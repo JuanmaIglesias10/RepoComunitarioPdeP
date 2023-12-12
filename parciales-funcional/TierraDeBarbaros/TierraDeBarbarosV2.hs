@@ -83,10 +83,7 @@ cantidadDeObjetos :: Barbaro -> Int
 cantidadDeObjetos unBarbaro = length . objetos $ unBarbaro
 
 caligrafia :: Prueba
-caligrafia unBarbaro = all empiezaConMayuscula (habilidades unBarbaro) && all contieneMasDe3Vocales (habilidades unBarbaro)
-
-caligrafia' :: Prueba
-caligrafia' unBarbaro = all empiezaConMayusYContieneMasDe3Vocales (habilidades unBarbaro)
+caligrafia unBarbaro = all empiezaConMayusYContieneMasDe3Vocales (habilidades unBarbaro)
 
 empiezaConMayusYContieneMasDe3Vocales :: String -> Bool
 empiezaConMayusYContieneMasDe3Vocales unaPalabra = empiezaConMayuscula unaPalabra && contieneMasDe3Vocales unaPalabra
@@ -112,3 +109,12 @@ aplicarTodosSusObjetos :: Barbaro -> Barbaro
 aplicarTodosSusObjetos unBarbaro = foldr ($) unBarbaro (objetos unBarbaro)
 
 
+
+sobrevivientes :: [Barbaro] -> Aventura -> [Barbaro]
+sobrevivientes unosBarbaros unaAventura = filter (sobrevive unaAventura) unosBarbaros
+
+sobrevive ::  Aventura -> Barbaro -> Bool
+sobrevive unaAventura unBarbaro  = all (pasoUnaPrueba unBarbaro) unaAventura
+
+pasoUnaPrueba :: Barbaro -> Prueba -> Bool
+pasoUnaPrueba unBarbaro unaPrueba = unaPrueba unBarbaro

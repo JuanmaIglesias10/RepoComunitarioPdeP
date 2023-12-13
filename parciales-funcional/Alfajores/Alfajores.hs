@@ -1,16 +1,23 @@
 import Text.Show.Functions()
+import Data.ByteString (isInfixOf)
 
 data Alfajor = UnAlfajor {
-    nombre :: String,
+    nombre         :: String,
     capasDeRelleno :: [Capa],
-    peso :: Int,
-    dulzorInnato :: Int
+    peso           :: Int,
+    dulzorInnato   :: Int
 } deriving (Show)
 
 data Capa = UnaCapa {
-    gusto :: String,
+    gusto  :: String,
     precio :: Int
 } deriving (Show,Eq)
+
+data Cliente = UnCliente {
+    criterios          :: [Criterio],
+    dineroDisponible   :: Int,
+    alfajoresComprados :: [Alfajor]
+} deriving (Show)
 
 dulceDeLeche = UnaCapa "Dulce De Leche" 12
 mousse = UnaCapa "Mousse" 15
@@ -61,16 +68,34 @@ todasSusCapasSonIguales unAlfajor = all (== head (capasDeRelleno unAlfajor)) (ca
 
 -- PARTE 2
 
-abaratar :: Alfajor -> Alfajor
+type Modificacion = Alfajor -> Alfajor
+
+abaratar :: Modificacion
 abaratar unAlfajor = modificarPeso(subtract 10) . modificarDulzor (subtract 7) $ unAlfajor
 
-renombrar :: String -> Alfajor -> Alfajor
+renombrar :: String -> Modificacion
 renombrar unNombre unAlfajor = modificarNombre (const unNombre) unAlfajor
 
-agregarUnaCapa :: Capa -> Alfajor -> Alfajor
+agregarUnaCapa :: Capa -> Modificacion
 agregarUnaCapa unaCapa unAlfajor = modificarCapa (unaCapa :) unAlfajor
 
-hacerPremium :: Alfajor -> Alfajor
+hacerPremium :: Modificacion
 hacerPremium unAlfajor 
     | esPotable unAlfajor = renombrar (nombre unAlfajor ++ "premium") . agregarUnaCapa (head . capasDeRelleno $ unAlfajor) $ unAlfajor
     | otherwise           = unAlfajor
+
+hacerPremiumDeGrado :: Int -> Modificacion
+hacerPremiumDeGrado unGrado unAlfajor = foldr ($) unAlfajor (gradosPremium unGrado)
+
+gradosPremium :: Int -> [Modificacion]
+gradosPremium unGrado = replicate unGrado hacerPremium
+
+-- PUNTO 3
+type Criterio = Alfajor -> Bool
+
+emi :: Cliente
+emi = UnCliente [soloCapitanesEspaciales] 120 []
+
+soloCapitanesEspaciales :: Criterio
+soloCapitanesEspaciales unAlfajor = isInfixOf "Capitan Del Espacio" (nombre unAlfajor)
+

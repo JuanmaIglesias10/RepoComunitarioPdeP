@@ -94,6 +94,7 @@ gradosPremium unGrado = replicate unGrado hacerPremium
 -- PUNTO 3
 type Criterio = Alfajor -> Bool
 
+--CLIENTES--
 emi :: Cliente
 emi = UnCliente "Emi" [contieneEnSuNombre "Capitan Del Espacio"] 120 []
 
@@ -105,6 +106,7 @@ dante = UnCliente "Dante" [esAnti dulceDeLeche , esExtranio] 200 []
 
 juan :: Cliente
 juan  = UnCliente "Juan" [esDulcero , esPretencioso , contieneEnSuNombre "Jorgito" , esAnti mousse] 500 []
+--CLIENTES--
 
 contieneEnSuNombre :: String -> Criterio
 contieneEnSuNombre unNombre unAlfajor = isInfixOf unNombre (nombre unAlfajor)
@@ -120,6 +122,3 @@ esDulcero unAlfajor = coeficienteDeDulzor unAlfajor >= 0.15
 
 esAnti :: Capa -> Criterio
 esAnti unaCapa unAlfajor  = not . elem unaCapa . capasDeRelleno $ unAlfajor
-
-
-

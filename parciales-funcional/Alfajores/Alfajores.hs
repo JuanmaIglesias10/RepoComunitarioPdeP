@@ -20,6 +20,12 @@ data Cliente = UnCliente {
     alfajoresComprados :: [Alfajor]
 } deriving (Show)
 
+modificarDinero :: (Int -> Int) -> Cliente -> Cliente
+modificarDinero unaFuncion unCliente = unCliente {dineroDisponible = unaFuncion . dineroDisponible $ unCliente}
+
+modificarAlfajoresComprados :: ([Alfajor] -> [Alfajor]) -> Cliente -> Cliente
+modificarAlfajoresComprados unaFuncion unCliente = unCliente {alfajoresComprados = unaFuncion . alfajoresComprados $ unCliente}
+
 dulceDeLeche = UnaCapa "Dulce De Leche" 12
 mousse = UnaCapa "Mousse" 15
 fruta = UnaCapa "Fruta" 10
@@ -122,3 +128,20 @@ esDulcero unAlfajor = coeficienteDeDulzor unAlfajor >= 0.15
 
 esAnti :: Capa -> Criterio
 esAnti unaCapa unAlfajor  = not . elem unaCapa . capasDeRelleno $ unAlfajor
+
+alfajoresQueLeGustan :: [Alfajor] -> Cliente -> [Alfajor]
+alfajoresQueLeGustan unosAlfajores unCliente = filter (cumpleTodosLosCriterios unCliente) unosAlfajores
+
+cumpleTodosLosCriterios ::  Cliente -> Alfajor -> Bool
+cumpleTodosLosCriterios unCliente unAlfajor =  all ($ unAlfajor) (criterios unCliente)
+
+comprar :: Alfajor -> Cliente -> Cliente
+comprar unAlfajor unCliente 
+    | puedeComprar unAlfajor unCliente = modificarDinero(subtract (precioDeUnAlfajor unAlfajor)) . modificarAlfajoresComprados (unAlfajor :) $ unCliente
+    | otherwise = unCliente
+
+puedeComprar :: Alfajor -> Cliente -> Bool
+puedeComprar unAlfajor unCliente = dineroDisponible unCliente >= precioDeUnAlfajor unAlfajor
+
+comprarLosQueGusten :: [Alfajor] -> Cliente -> Cliente
+comprarLosQueGusten unosAlfajores unCliente = foldr comprar unCliente (alfajoresQueLeGustan unosAlfajores unCliente)

@@ -1,5 +1,5 @@
 import Text.Show.Functions()
-import Data.ByteString (isInfixOf)
+import Data.List (isInfixOf)
 
 data Alfajor = UnAlfajor {
     nombre         :: String,
@@ -14,6 +14,7 @@ data Capa = UnaCapa {
 } deriving (Show,Eq)
 
 data Cliente = UnCliente {
+    nombreCliente :: String,
     criterios          :: [Criterio],
     dineroDisponible   :: Int,
     alfajoresComprados :: [Alfajor]
@@ -94,8 +95,31 @@ gradosPremium unGrado = replicate unGrado hacerPremium
 type Criterio = Alfajor -> Bool
 
 emi :: Cliente
-emi = UnCliente [soloCapitanesEspaciales] 120 []
+emi = UnCliente "Emi" [contieneEnSuNombre "Capitan Del Espacio"] 120 []
 
-soloCapitanesEspaciales :: Criterio
-soloCapitanesEspaciales unAlfajor = isInfixOf "Capitan Del Espacio" (nombre unAlfajor)
+tomi :: Cliente
+tomi = UnCliente "Tomi" [esDulcero , esPretencioso] 100 []
+
+dante :: Cliente
+dante = UnCliente "Dante" [esAnti dulceDeLeche , esExtranio] 200 []
+
+juan :: Cliente
+juan  = UnCliente "Juan" [esDulcero , esPretencioso , contieneEnSuNombre "Jorgito" , esAnti mousse] 500 []
+
+contieneEnSuNombre :: String -> Criterio
+contieneEnSuNombre unNombre unAlfajor = isInfixOf unNombre (nombre unAlfajor)
+
+esPretencioso :: Criterio
+esPretencioso unAlfajor = contieneEnSuNombre "premium" unAlfajor
+
+esExtranio :: Criterio
+esExtranio unAlfajor = not . esPotable $ unAlfajor
+
+esDulcero :: Criterio
+esDulcero unAlfajor = coeficienteDeDulzor unAlfajor >= 0.15
+
+esAnti :: Capa -> Criterio
+esAnti unaCapa unAlfajor  = not . elem unaCapa . capasDeRelleno $ unAlfajor
+
+
 

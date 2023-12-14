@@ -1,7 +1,6 @@
 import Data.List (isInfixOf)
 import Text.Show.Functions()
 import Data.Char (isUpper)
-
 data Plomero = UnPlomero {
     nombre :: String,
     cajaDeHerramientas :: [Herramienta],
@@ -12,7 +11,7 @@ data Plomero = UnPlomero {
 data Herramienta = UnaHerramienta {
     denominacion :: String,
     precio :: Float,
-    material :: String
+    materialDelMango :: String
 } deriving (Show,Eq)
 
 data Reparacion = UnaReparacion {
@@ -70,7 +69,7 @@ mangoDeHierroYCaro :: Herramienta -> Bool
 mangoDeHierroYCaro unaHerramienta = tieneMangoDe "Hierro" unaHerramienta && saleMasDe 10000 unaHerramienta
 
 tieneMangoDe :: String -> Herramienta -> Bool
-tieneMangoDe unMango unaHerramienta = material unaHerramienta == unMango
+tieneMangoDe unMango unaHerramienta = materialDelMango unaHerramienta == unMango
 
 saleMasDe :: Float -> Herramienta -> Bool
 saleMasDe unPrecio unaHerramienta = precio unaHerramienta > unPrecio
@@ -108,5 +107,60 @@ largoDeLaDescripcion unaReparacion = length (descripcion unaReparacion)
 esGritando :: Reparacion -> Bool
 esGritando unaReparacion = all isUpper (descripcion unaReparacion)
 
-presupuesto :: Reparacion -> Int
-presupuesto unaReparacion = 3 * largoDeLaDescripcion unaReparacion
+presupuesto :: Reparacion -> Float
+presupuesto unaReparacion = fromIntegral(3 * largoDeLaDescripcion unaReparacion)
+
+--PUNTO 6
+
+puedeHacerReparacion :: Reparacion -> Plomero -> Bool
+puedeHacerReparacion unaReparacion unPlomero = (cumpleRequerimiento unaReparacion unPlomero) || esMaloConMartillo unPlomero
+
+cumpleRequerimiento :: Reparacion -> Plomero -> Bool
+cumpleRequerimiento unaReparacion unPlomero = requerimiento unaReparacion unPlomero
+
+esMaloConMartillo :: Plomero -> Bool
+esMaloConMartillo unPlomero = esMalvado unPlomero && tieneHerramienta martillo unPlomero
+
+hacerReparacion :: Reparacion -> Plomero -> Plomero
+hacerReparacion unaReparacion unPlomero
+    | puedeHacerReparacion unaReparacion unPlomero = (extraSegunSituacion unaReparacion) . (hacerYCobrar unaReparacion) $ unPlomero
+    | otherwise = modificarDinero (+100) unPlomero
+
+hacerYCobrar :: Reparacion -> Plomero -> Plomero
+hacerYCobrar unaReparacion unPlomero = modificarDinero (+ presupuesto unaReparacion) unPlomero
+
+extraSegunSituacion :: Reparacion -> Plomero -> Plomero
+extraSegunSituacion unaReparacion unPlomero
+    | not . esMalvado $ unPlomero = hacerSegunDificultad unPlomero unaReparacion
+    | otherwise = modificarCajaDeHerramientas (UnaHerramienta "destornillador" 0 "plastico":) unPlomero
+
+hacerSegunDificultad :: Plomero -> Reparacion -> Plomero
+hacerSegunDificultad unPlomero unaReparacion
+    | esDificil unaReparacion = modificarCajaDeHerramientas(filter (not . esBuena)) unPlomero
+    | otherwise               = modificarCajaDeHerramientas tail unPlomero
+
+--PUNTO 7
+
+jornadaDeTrabajo :: [Reparacion] -> Plomero -> Plomero
+jornadaDeTrabajo unasReparaciones unPlomero  = foldr hacerReparacion unPlomero unasReparaciones
+
+--PUNTO 8
+
+type Criterio = Plomero -> Float
+
+elMasAlgoSegunCriterio :: Criterio -> [Plomero] -> [Reparacion] -> Plomero
+elMasAlgoSegunCriterio unCriterio unosPlomeros unasReparaciones = foldl1 (elMasAlgoEntre2 unCriterio) (map (jornadaDeTrabajo unasReparaciones) unosPlomeros)
+
+elMasAlgoEntre2 :: Criterio -> Plomero -> Plomero -> Plomero 
+elMasAlgoEntre2 unCriterio unPlomero otroPlomero 
+    | unCriterio unPlomero > unCriterio otroPlomero = unPlomero
+    | otherwise = otroPlomero
+
+cantidadDeReparaciones :: Criterio
+cantidadDeReparaciones unPlomero = fromIntegral (length . historialDeReparaciones $ unPlomero)
+
+adinerado :: Criterio 
+adinerado unPlomero =  dinero unPlomero
+
+inversor :: Criterio
+inversor unPlomero = sum . map precio . cajaDeHerramientas $ unPlomero

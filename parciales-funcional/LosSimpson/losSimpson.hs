@@ -68,4 +68,34 @@ lisa = UnPersonaje "Lisa" 100 150
 -}
 
 --PUNTO 2
+type Logro = Personaje -> Bool
+
+srBurns :: Personaje
+srBurns = UnPersonaje "Sr Burns" 1000000 1
+
+serMillonario :: Logro
+serMillonario unPersonaje = dinero unPersonaje > dinero srBurns
+
+alegrarse :: Int -> Logro
+alegrarse unNivelDeseado unPersonaje = felicidad unPersonaje > unNivelDeseado
+
+irAVerAKrosti :: Logro
+irAVerAKrosti unPersonaje = dinero unPersonaje >= 10
+
+serProfeDeLaUtn :: Logro
+serProfeDeLaUtn unPersonaje = (dinero unPersonaje == 0) && (felicidad unPersonaje == 0)
+
+esDecisiva :: Personaje -> Logro -> Actividad -> Bool
+esDecisiva unPersonaje unLogro unaActividad  = unLogro . unaActividad $ unPersonaje
+
+hacerPrimerActividadDecisiva :: Personaje -> Logro -> [Actividad] -> Personaje
+hacerPrimerActividadDecisiva unPersonaje unLogro unasActividades
+    | null (actividadesDecisivas unPersonaje unLogro unasActividades) = unPersonaje
+    | otherwise = head (actividadesDecisivas unPersonaje unLogro unasActividades) unPersonaje
+
+actividadesDecisivas ::  Personaje -> Logro -> [Actividad] -> [Actividad]
+actividadesDecisivas  unPersonaje unLogro unasActividades = filter (esDecisiva unPersonaje unLogro) unasActividades
+
+actividadesInfinitas :: [Actividad]
+actividadesInfinitas = cycle [irATrabajarComoDirector, irALaEscuela, comerUnasDonas 10]
 

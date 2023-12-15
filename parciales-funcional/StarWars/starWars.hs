@@ -66,11 +66,11 @@ durabilidadTotal unasNaves = sum . map (durabilidad) $ unasNaves
 --3
 
 comoQuedoUnaNaveDespuesDeSerAtacada :: Nave -> Nave -> Nave
-comoQuedoUnaNaveDespuesDeSerAtacada naveAtacante naveAtacada = actulizarNaveAtacada (activarPoder naveAtacada) (activarPoder naveAtacante)
+comoQuedoUnaNaveDespuesDeSerAtacada naveAtacante naveAtacada = actualizarNaveAtacada (activarPoder naveAtacada) (activarPoder naveAtacante)
 
 actualizarNaveAtacada :: Nave -> Nave -> Nave
 actualizarNaveAtacada naveAtacada naveAtacante
-    | ataque naveAtacante > escudo naveAtacada = modificarDurabilidad (-(calcularNivelDeDano naveAtacante naveAtacada)) naveAtacada
+    | ataque naveAtacante > escudo naveAtacada = modificarDurabilidad (subtract (calcularNivelDeDano naveAtacante naveAtacada)) naveAtacada
     | otherwise = naveAtacada
 
 calcularNivelDeDano :: Nave -> Nave -> Int

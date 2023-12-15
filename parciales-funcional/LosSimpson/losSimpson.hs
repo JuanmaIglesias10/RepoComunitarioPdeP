@@ -98,4 +98,3 @@ actividadesDecisivas  unPersonaje unLogro unasActividades = filter (esDecisiva u
 
 actividadesInfinitas :: [Actividad]
 actividadesInfinitas = cycle [irATrabajarComoDirector, irALaEscuela, comerUnasDonas 10]
-

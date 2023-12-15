@@ -11,6 +11,8 @@ data Nave = UnaNave {
     poder :: Poder
 } deriving Show
 
+type Flota = [Nave]
+
 --ACCESORS
 modificarAtaque :: (Int -> Int) -> Nave -> Nave
 modificarAtaque unaFuncion unaNave = unaNave {ataque = unaFuncion . ataque $ unaNave}
@@ -60,17 +62,16 @@ poderDeLosDioses :: Poder
 poderDeLosDioses unaNave = reparacionYEscudos . movimientoSuperTurbo $ unaNave
 
 --2
-durabilidadTotal :: [Nave] -> Int
+durabilidadTotal :: Flota -> Int
 durabilidadTotal unasNaves = sum . map (durabilidad) $ unasNaves
 
 --3
-
 comoQuedoUnaNaveDespuesDeSerAtacada :: Nave -> Nave -> Nave
-comoQuedoUnaNaveDespuesDeSerAtacada naveAtacante naveAtacada = actulizarNaveAtacada (activarPoder naveAtacada) (activarPoder naveAtacante)
+comoQuedoUnaNaveDespuesDeSerAtacada naveAtacante naveAtacada = actualizarNaveAtacada (activarPoder naveAtacada) (activarPoder naveAtacante)
 
 actualizarNaveAtacada :: Nave -> Nave -> Nave
 actualizarNaveAtacada naveAtacada naveAtacante
-    | ataque naveAtacante > escudo naveAtacada = modificarDurabilidad (-(calcularNivelDeDano naveAtacante naveAtacada)) naveAtacada
+    | ataque naveAtacante > escudo naveAtacada = modificarDurabilidad (subtract (calcularNivelDeDano naveAtacante naveAtacada)) naveAtacada
     | otherwise = naveAtacada
 
 calcularNivelDeDano :: Nave -> Nave -> Int
@@ -79,4 +80,36 @@ calcularNivelDeDano naveAtacante naveAtacada = ataque naveAtacante - escudo nave
 activarPoder :: Nave -> Nave 
 activarPoder unaNave = poder unaNave unaNave
 
+--4
 
+type Estrategia = Nave -> Bool
+
+estafueraDeCombate :: Estrategia
+estafueraDeCombate unaNave = durabilidad unaNave == 0
+
+--5
+
+aplicarEstrategia :: Flota -> Estrategia -> Flota 
+aplicarEstrategia unasNaves unaEstrategia = filter unaEstrategia unasNaves
+
+navesDebiles :: Estrategia
+navesDebiles unaNave = escudo unaNave < 200
+
+navesConCiertaPeligrosidad :: Int -> Estrategia
+navesConCiertaPeligrosidad unaPeligrosidad unaNave = ataque unaNave > unaPeligrosidad
+
+navesConNombreAmenazante :: Int -> Estrategia
+navesConNombreAmenazante unaLongitud unaNave = (length . nombre $ unaNave) > unaLongitud
+
+misionSorpresa :: Nave -> Flota -> Estrategia -> Flota
+misionSorpresa naveAtacante unaFlota unaEstrategia = map (comoQuedoUnaNaveDespuesDeSerAtacada naveAtacante) (aplicarEstrategia unaFlota unaEstrategia)
+
+--6
+mejorEstrategia :: Nave -> Flota -> Estrategia -> Estrategia -> Estrategia
+mejorEstrategia naveAtacante unaFlota unaEstrategia otraEstrategia
+    | durabilidadTotal (misionSorpresa naveAtacante unaFlota unaEstrategia) > durabilidadTotal (misionSorpresa naveAtacante unaFlota otraEstrategia) = unaEstrategia
+    | otherwise = otraEstrategia
+
+--7
+flotaInfinita :: [Nave]
+flotaInfinita = repeat naveDarthVader

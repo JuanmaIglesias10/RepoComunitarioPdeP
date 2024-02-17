@@ -33,3 +33,4 @@ class Sexies inherits Caracteristica {
     }
 }
 
+const caracteristicaGraciosa = new Gracioso()

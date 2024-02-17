@@ -1,0 +1,114 @@
+@startuml
+
+class Fiesta {
+	lugar
+	fechaDeFiesta
+	invitados
+
+    fechaDeFiesta()
+    esUnBodrio()
+    mejorDisfraz()
+	puedenIntercambiar(unInvitado, otroInvitado)
+    estaEnLaFiesta(unInvitado)
+	ambosEstanEnLafiesta(unInvitado, otroInvitado)
+	algunoEstaDisconforme(unInvitado, otroInvitado)
+	quedanConformesConElCambio(unInvitado, otroInvitado)
+    intercambiarDisfraces(unInvitado, otroInvitado)
+    agregarInvitado(unInvitado)
+}
+
+Fiesta -->"*" Invitado : invitados
+
+class Invitado {
+	disfraz
+	edad
+    personalidad
+    exigencia
+	
+	cambiarDeDisfraz(unDisfraz)
+    esSexy()
+    seConforma()
+	estaDisconforme()
+}
+
+Invitado --> Exigencia
+Invitado --> Disfraz
+
+interface Personalidad {
+    haceSexy(unInvitado)
+}
+
+Invitado -up-> Personalidad
+alegre ..|> Personalidad
+taciturno ..|> Personalidad
+
+object alegre {
+--
+    haceSexy(unInvitado)
+}
+
+object taciturno {
+--
+    haceSexy(unInvitado)
+}
+
+abstract class Exigencia {
+    seConforma(unDisfraz)
+}
+
+Exigencia ..> Disfraz
+
+class Caprichoso extends Exigencia {
+    seConforma(unDisfraz)
+}
+
+class Pretencioso extends Exigencia {
+    seConforma(unDisfraz)
+}
+
+class Numerologo extends Exigencia {
+    unPuntaje
+
+    seConforma(unDisfraz)
+}
+
+class Disfraz {
+	nombre
+	fechaDeConfeccion
+    nivelDeGracia
+    fechaDeCompra
+	caracteristicas
+
+	puntaje(unInvitado, unaFiesta)
+}
+
+Disfraz --> Caracteristica
+
+abstract class Caracteristica {
+    puntaje(unDisfraz, unInvitado, unaFiesta)
+}
+
+Caracteristica ..> Disfraz
+Caracteristica ..> Invitado
+Caracteristica ..> Fiesta
+
+class Gracioso extends Caracteristica {
+    puntaje(unDisfraz, unInvitado, unaFiesta)
+}
+
+class Tobara extends Caracteristica {
+    puntaje(unDisfraz,unInvitado, unaFiesta)
+}
+
+class Careta extends Caracteristica {
+    const nombre
+    const valor
+
+    puntaje(unDisfraz,unInvitado, unaFiesta)
+}
+	
+class Sexies extends Caracteristica {
+    puntaje(unDisfraz,unInvitado, unaFiesta)
+}
+
+@enduml

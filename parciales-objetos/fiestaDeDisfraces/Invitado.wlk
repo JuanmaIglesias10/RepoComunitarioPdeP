@@ -50,9 +50,10 @@ class Numerologo inherits Exigencia {
     override method seConforma(unDisfraz) = super(unDisfraz) && unDisfraz.puntaje() == unPuntaje
 }
 
-/* 
-const pepe = new Invitado(disfraz = espiderman, edad = 90, personalidad = alegre, exigencia = Caprichoso) // no puede ser una clase
-*/
+const pepe = new Invitado(disfraz = espiderman, edad = 90, personalidad = alegre, exigencia = exigenciaCaprichosa)
+
+const exigenciaCaprichosa = new Caprichoso()
+
 
 
 

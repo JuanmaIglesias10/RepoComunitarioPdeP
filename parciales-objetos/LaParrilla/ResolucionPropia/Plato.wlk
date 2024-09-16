@@ -35,7 +35,7 @@ class BurgaSimple inherits Plato {
 	const cantMedallones = 1
 	
 	override method esAptoCeliaco() = tipoDePan.esAptoCeliaco()
-	override method peso() = tipoDePan.peso() * cantMedallones + pesoDeMedallon
+	override method peso() = tipoDePan.peso() + cantMedallones * pesoDeMedallon
 	override method valoracion() = self.peso() / 10	
 }
 

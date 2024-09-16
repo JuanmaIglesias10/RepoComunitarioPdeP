@@ -1,3 +1,5 @@
+// https://docs.google.com/document/u/1/d/e/2PACX-1vTk6E7nY0HX9aTxkGlGhojzd6y7PfNs0c0C0Qs6VgKm3cJoV5OjdptV48ovMyJmpPajgXx2OKiAdRF0/pub
+
 import Plato.*
 
 class NoTieneSuficienteDinero inherits Exception{}

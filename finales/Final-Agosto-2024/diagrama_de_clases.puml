@@ -1,0 +1,51 @@
+@startuml 
+
+Autopista --> Vehiculo
+MedioDePago --> PagarConPass
+MedioDePago --> PagarConEfectivo
+MedioDePago --> PagarConSube
+Auto --> Vehiculo
+Camion --> Vehiculo
+Camion --> MedioDePago
+Auto --> MedioDePago
+
+class Autopista{
+ -vehiculos
+ -saldo
+ +cobrarPeaje()
+ +cobrarleA(vehiculo)
+}
+
+interface Vehiculo{
+ +tarifa()
+}
+
+class Auto{
+ -tarifa
+ -medioDePago
+ +tarifa()
+}
+
+class Camion{
+ -cantEjes
+ -medioDePago
+ +tarifa()
+}
+
+interface MedioDePago{
+ pagarPeaje()
+}
+
+class PagarConPass{
+ +pagarPeaje()
+}
+
+class PagarConSube{
+ +pagarPeaje()
+}
+
+class PagarConEfectivo{
+ +pagarPeaje()
+}
+
+@enduml

@@ -1,0 +1,63 @@
+data Destino = unDestino {
+    nombre :: [char],
+    precio :: float,
+    atractivos :: [String]
+}
+
+1)
+type RequisitosDeUnaPersona = Destino -> Bool
+
+tieneBoliches :: RequisitosDeUnaPersona
+tieneBolichesDestino destino = ((elem 'boliches'). atractivos) destino
+
+barato :: RequisitosDeUnaPersona
+barato destino = precio destino < 50
+
+alguien :: [RequisitosDeUnaPersona]
+alguien = [tieneBoliches, barato]
+
+tieneAtractivo :: RequisitosDeUnaPersona
+tieneAtractivo unDestino = not . null . atractivos $ unDestino 
+
+2)
+    a. F, la solucion no funciona correctamente porque al Any no se le esta
+       pasando bien la condicion booleana
+    b. F, la solucion delega bien en dos funciones
+    c. V, se le puso como nombre a una funcion f.
+    d. V, 
+----------------------------------------------------------
+swipl nombreDelArchivo.pl
+make.
+
+genero(el38,rock).
+genero(sisters,reggae).
+genero(muchoPorHacer,rock).
+genero(tusOjos,reggae).
+genero(bastara,reggae).
+genero(asd,rock).
+
+toca(el38, divididos).
+toca(sisters, divididos).
+toca(muchoPorHacer, riff).
+toca(tusOjos, losCafres).
+toca(bastara, losCafres).
+toca(asd,asdfghj).
+
+rockera(Banda):-
+    toca(_,Banda),
+    findall(Tema, noTieneTemasDeRock(Banda), Temas),
+    length(Temas, 0).
+
+noTieneTemasDeRock(Banda):-
+    toca(Tema,Banda),
+    genero(Tema,Genero),
+    Genero \= rock.
+
+---------------------------------------------------------------------
+
+1.
+    a. Verdadero, es necesario que exista la clase Vehiculo dado que el método cobrarleA(vehiculo) 
+    de Autopista lo utiliza polimórficamente.
+    b. Falso, dado que se repite lógica en el método pagarPeaje() de AutoConPass y CamionConPass (lo mismo para el resto).
+    c. Verdadero, ya que al utilizar herencia no podriamos hacer una transicion entre el metodo de pago.
+    d. Verdadero, porque estas sumandote el saldo antes de el pago del peaje del vehiculo. si el pago fallara, vos ya te sumaste el saldo y quedaria inconsistente.

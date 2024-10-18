@@ -1,0 +1,93 @@
+PARTE A
+    3.
+        esValiente(Persona):-
+            subioA(Persona, montaniaRusa(_)).
+
+PARTE B
+    
+    1.
+        aumentarPrecio :: Double -> Cafe -> Cafe
+        aumentarPrecio monto cafe = cafe{precio = precio cafe + monto}
+
+        modificarCalorias :: (Double -> Double) -> Cafe -> Cafe
+        modificarCalorias modificacion cafe = cafe{calorias = (modificacion . calorias) cafe}
+    2.  
+        almendras :: Agregado
+        almendras unCafe =  modificarCalorias (+ 80.0 ) . aumentarPrecio 150.0 $ unCafe
+
+        especialDulceDeLeche :: Agregado
+        especialDulceDeLeche unCafe = modificarCalorias (* 3.0) . aumentarPrecio 350.0 $ unCafe
+
+    aumentarPrecio :: Double -> Cafe -> Cafe
+
+    modificarCalorias :: (Double -> Double) -> Cafe -> Cafe
+
+
+    almendras :: Agregado
+    almendras unCafe =  modificarCalorias (+ 80.0) . aumentarPrecio 150.0 $ unCafe
+
+
+    especialDulceDeLeche :: Agregado
+    especialDulceDeLeche unCafe = modificarCalorias (*3.0) . aumentarPrecio 350.0 $ unCafe
+
+PARTE C
+
+     class Restaurante {
+        var menu = []
+
+        method aprobadoPorJurado(unJurado) = unJurado.all{unCritico -> unCritico.apruebaRestaurante(self)}
+    }
+
+    class Plato {
+        var nombre
+        var origen
+        var chef
+        var calorias
+        bool contieneGluten
+    }
+
+    class Chef {
+        var nombre
+        bool ganoPremio
+    }
+
+    class Critico {
+        var nombre
+        
+        method apruebaRestaurante(unRestaurante)
+    }
+
+    class Festival {
+        var restaurantes = []
+        var jurado = []
+
+        method elegidosDelJurado() = restaurantes.filter{unRestaurante -> unRestaurante.aprobadoPorJurado(jurado)}
+    }
+
+
+//MIOOOOOOOOOOOOOOOOOOOOOOOOOO
+class Critico {
+    var nombre;
+    var preferencia; //En caso de que tuvieran una sola preferencia
+
+    method cumplePreferencia(restaurante) {
+        return preferencia.condicionParaCumplir(restaurante)
+    }
+}
+
+class Jurado {
+    var criticos = []
+
+    method lesGustaATodos(unRestaurante) {
+         return criticos.all{critico -> critico.cumplePreferencia(unRestaurante)}
+    }
+}
+
+class Festival {
+    var restaurantes = []
+    var Jurado; //Aca en caso de que hubiera solo un jurado en el festival
+
+    method elegidosDelJurado() {
+        restaurantes.filter{restaurante -> jurado.lesGustaATodos(restaurante)}
+    }
+}

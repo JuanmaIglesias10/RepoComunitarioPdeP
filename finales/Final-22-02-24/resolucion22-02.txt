@@ -1,0 +1,52 @@
+Parte A
+
+1 a-
+
+2)
+
+class Cliente {
+    var property publicidades = []
+
+    method costoTotal() {
+        return self.publicidades.sum({publicidad => publicidad.costo(self)})
+    }
+}
+
+abstract class Publicidad {
+    var property estaActiva = true
+
+    method costo(cliente)
+}
+
+class PublicidadNoTradicional inherits Publicidad {
+    var property medios = []
+
+    override method costo(cliente) {
+        if(estaActiva) {
+            return medios.sum{medio => medio.tarifa()}
+        }
+        else return 0
+    }
+}
+
+class PublicidadTradicional inherits Publicidad {
+    var property plan
+
+    override method costo() {
+        if (estaActiva) {
+            return plan.costoPlan()
+        }
+        else return 0
+    }
+}
+
+Parte C
+
+1- 
+
+f :: [(b,[[Int]])] -> (Int -> Bool) -> Bool
+
+
+map snd [(b,[[Int]])] --> [[Int]] --> head --> [Int] --> filter --> [Int] -->
+--> sum --> a --> bool
+ 

@@ -1,0 +1,32 @@
+PARTE A
+
+cura :: String -> [String] -> [String]
+
+1)
+    Type Sintoma = String
+
+    medicamento :: [Sintoma] -> [Sintoma]
+    curaTodosLos :: [Sintoma] -> Medicamento -> Bool
+
+2)  
+    Aplicacion parcial en curaTodosLos y orden superior.
+
+3)  
+    Empieza a ejecutar pero no termina de responder porque
+    el filter de cura necesita evaluar la lista completa.
+
+PARTE B
+
+
+A)
+    Un personaje se divierte cuando tiene uno o mas de un compañero animado
+        en la misma pelicula.
+
+B) 
+    aptaParaAmargos(naufrago). TRUE
+    aptaParaAmargos(quienEnganio). FALSE
+
+    seDivierte(eddie). TRUE
+    seDivierte(chuck). FALSE
+
+PARTE C

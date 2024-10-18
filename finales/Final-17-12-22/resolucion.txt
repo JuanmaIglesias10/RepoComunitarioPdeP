@@ -1,0 +1,124 @@
+PARTE A
+
+    queEmpiceConA :: Producto -> Bool
+    queEmpiceConA = (==a) . head . nombre
+    
+    barato :: Producto -> Bool
+    barato = (<50) . precio
+
+    1)
+        restriccionesDeCompra :: [Producto -> Bool]
+    2)
+        queEmpiceCon :: Char -> Producto -> Bool
+        queEmpieCon unaLetrovich = (== unaLetrovich ) . head . nombre
+
+
+        restriccionesDeCompra = [queEmpiceCon 'a', barato]
+
+        usamos aplicacion parcial
+
+    3) 
+        cumpleTodasLasRestricciones :: [Producto] -> [Producto -> Bool] -> [Producto]
+        cumpleTodasLasRestricciones unosProductos unasRestricciones = filter (cumpleTodas unasRestricciones) unosProductos
+
+        cumpleTodas :: [Producto -> Bool] -> Producto -> Bool
+        cumpleTodas unasRestricciones unProducto  = all ($ unProducto) unasRestricciones
+
+
+PARTE C
+
+class Persona {
+    var property edad
+    var property consolas = []
+
+    method puedeJugar(unJuego) {
+        unJuego.esJugablePor(self)
+    }
+
+    method tieneConsolaPosible(consolasDisponibles) {
+        consolasDisponibles.forEach{consola => consolasDisponibles.contains(consola)}.any(==true)
+    }
+}
+
+class Juego {
+
+    method esJugablePor(unaPersona)
+    method cumpleConLaEdad(unaPersona, cotaInf, cotaSup) = unaPersona.edad().between(cotaInf, cotaSup) 
+}
+
+class VideoJuego inherits Juego {
+    var property consolasPosibles = []
+    var property genero
+
+    override method esJugablePor(unaPersona) = cumpleConLaEdad(unaPersona, genero.edadMinima(), 80) && persona.tieneConsolaPosible(consolasPosibles)
+}
+
+class JuegoDeMesa {
+    var edadMinima
+    var edadMaxima
+
+    override method esJugablePor(unaPersona) = cumpleConLaEdad(unaPersona,edadMinima, edadMaxima)
+}
+
+class Pelota {
+
+    override method esJugablePor(unaPersona) = unaPersona.edad() > 1
+}
+
+class Genero {
+    var property titulo
+    var property edadMinima
+}
+
+
+
+
+
+
+
+
+
+
+class Persona {
+    var property edad
+    var property consolas = []
+
+    puedeJugar(unJuego) {
+        unJuego.esJugablePor(self)
+    }
+}
+
+class Juego {
+    var property tipo
+    var property edadMinima
+    var edadMaxima
+
+    method esJugablePor(unaPersona)
+    method cumpleConLaEdad(unaPersona,unValor,otroValor) = unaPersona.edad().between(unValor, otroValor) 
+
+}
+
+class VideoJuego inherits Juego {
+    var property consolasPosibles = []
+    var property genero
+
+    override method esJugablePor(unaPersona) { 
+        if (cumpleConLaEdad(unaPersona,genero.edadMinima(),80)){
+            // ACA TIENE QUE IR LO QUE TE PIDO
+        }
+    }
+}
+
+class JuegoDeMesa inherits Juego {
+
+    override method esJugablePor(unaPersona) = self.cumpleConLaEdad(unaPersona,self.edadMinima(),self.edadMaxima)
+}
+
+class Pelota inherits Juego {
+    override method esJugablePor(unaPersona) = unaPersona.edad() > 1
+}
+
+class Genero {
+    var property titulo
+    var property edadMinima
+}

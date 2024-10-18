@@ -1,0 +1,81 @@
+PARTE A 
+
+1) 
+    a. V. Maneja correctamente el caso de atacar a un personaje que no es enemigo.
+          Retorna y corta la ejecucion del metodo.
+    b. V. Podria generalizarse el agregar enemigos y recibir daño.
+    c. F.
+    d. F.
+
+2)
+ 
+class Personaje {
+    const enemigos = #{}
+    var Rol
+    
+    method recibirDaño(cantidad) {
+        /* asumir que funciona */
+        self.agregarEnemigo(unPersonaje)
+    }
+
+    method agregarEnemigo(personaje) {
+        enemigos.add(personaje)
+    }
+    
+    method atacar(personaje) {
+        rol.realizarAtaque(personaje)
+    }
+
+    method cambiarRol(unRol) {
+        self.setRol(unRol)
+    }
+}
+
+interface Rol {
+    realizarAtaque(personaje)
+}
+
+
+class Heroe implements Rol {
+    const habilidades = #{}
+    const aliados = #{}
+
+    method realizarAtaque(Personaje) {
+        if(not enemigos.contains(Personaje)) {
+            return "El personaje atacado no es un enemigo"
+        }
+        personaje.recibirDaño(self.poder())
+    }
+    method poder() = aliados.size() * habilidades.sum({h=> h.poder()})
+}
+
+class Habilidad {
+    var p
+}   
+
+Parte B 
+
+1. Sirve para verificar si una persona consume la misma cantidad de gaseosas equivalente a la suma de cerveza con alcohol y vinos.
+   ?- tieneProblemas(juan).
+      True.
+
+2.  
+
+tieneProblemas(Persona):-
+    cantBebida(Persona, cerveza(C,_,A), CCs),
+    cantBebida(Persona, vino(V,_), CVs),
+    cantBebida(Persona, t, CTs),
+    CTs is CCs + CVs.
+
+cantBebida(Persona, cerveza(_,_,A),CCs):- A <
+    
+Parte C
+
+ibuprofeno :: Int -> [Sintoma] -> [Sintoma]
+ibuprofeno unosMG sintomas = 
+    | unosMG > 500 =  cura "dolor agudo" . cura "hinchazon" $ sintomas 
+    | otherwise = cura "dolor moderado" sintomas
+
+
+medicamentos :: [Medicamento]
+medicamentos = [ibuprofeno 400, amoxicilina]

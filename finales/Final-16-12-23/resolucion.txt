@@ -1,0 +1,41 @@
+PARTE A
+
+1) 
+tomar :: Bebida -> Persona -> Persona
+
+mezclar :: Bebida -> Bebida -> Bebida
+
+seTomanUnCoctelConEstasBebidas :: [Bebida] -> [Persona] -> [Persona]
+seTomanUnCoctelConEstasBebidas bebidas personas = map (tomar (foldl1 mezclar bebidas)) personas
+
+PARTE B
+
+predicadoMisterioso(Persona, Cosa, CantidadMax) :-
+    tiene(Persona, Cosa, CantidadMax),
+    forall(tiene(Persona, _ , Cantidad), CantidadMax >= Cantidad).
+
+PARTE C
+
+method cambioDeEpoca() {
+    estilo.cambiarDeEpoca(self);
+}
+
+object comunitaria {
+    method cambiarDeEpoca(Radio unaRadio) {
+        if unaRadio.esMovilizante() unaRadio.cambiarRecursos(0)
+    }
+}
+
+object anarcoCapitalista {
+    method cambiarDeEpoca(radio unaRadio) {
+        unaRadio.mejorar()
+    }
+}
+
+object comercial {
+    method cambiarDeEpoca(Radio unaRadio) {
+        if(unaRadio.muchosAnunciantes() && unRadio.tieneMasRecursosQue(100)) {
+            unaRadio.cambiarEstilo(anarcoCapitalista)
+        }
+    }
+}
